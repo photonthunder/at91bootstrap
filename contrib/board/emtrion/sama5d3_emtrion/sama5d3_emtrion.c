@@ -44,7 +44,7 @@
 #include "arch/sama5_smc.h"
 #include "arch/at91_pio.h"
 #include "arch/at91_ddrsdrc.h"
-#include "sama5d3_acqua.h"
+#include "sama5d3_emtrion.h"
 #include "macb.h"
 #include "twi.h"
 #include "act8865.h"
@@ -457,7 +457,7 @@ void at91_spi0_hw_init(void)
 #ifdef CONFIG_OF_LIBFDT
 void at91_board_set_dtb_name(char *of_name)
 {
-	strcat(of_name, "at91-sama5d3_acqua.dtb");
+	strcat(of_name, "sbc-sama5d36.dtb");
 }
 #endif
 

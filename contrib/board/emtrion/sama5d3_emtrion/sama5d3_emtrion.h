@@ -25,8 +25,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef __SAMA5D3_ACQUA_H__
-#define __SAMA5D3_ACQUA_H__
+#ifndef __SAMA5D3_EMTRION_H__
+#define __SAMA5D3_EMTRION_H__
 
 /*
  * PMC Setting
@@ -34,7 +34,7 @@
  * The main oscillator is enabled as soon as possible in the lowlevel_clock_init
  * and MCK is switched on the main oscillator.
  */
-#define BOARD_MAINOSC		12000000
+#define BOARD_MAINOSC		24000000
 
 #if defined(CONFIG_BUS_SPEED_133MHZ)
 
@@ -212,4 +212,4 @@
  */
 #define CONFIG_SYS_BASE_MCI	AT91C_BASE_HSMCI0
 
-#endif /* __SAMA5D3_ACQUA_H__ */
+#endif /* __SAMA5D3_EMTRION_H__ */
