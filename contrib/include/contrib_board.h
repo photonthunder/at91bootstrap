@@ -49,6 +49,10 @@
 #include "sama5d3_acqua.h"
 #endif
 
+#ifdef CONFIG_SAMA5D3_EMTRION
+#include "sama5d3_emtrion.h"
+#endif
+
 #ifdef CONFIG_SAMA5D3_STEPHAN
 #include "sama5d3_stephan.h"
 #endif
