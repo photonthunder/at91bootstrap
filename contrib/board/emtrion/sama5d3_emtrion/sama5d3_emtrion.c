@@ -70,6 +70,7 @@ static void initialize_dbgu(void)
 {
 	at91_dbgu_hw_init();
 	usart_init(BAUDRATE(MASTER_CLOCK, 115200));
+	usart_puts("hello\n");
 }
 
 #ifdef CONFIG_DDR2
@@ -413,39 +414,39 @@ void hw_init(void)
 {
 	
 	/* Disable watchdog */
-	//at91_disable_wdt(); TEST
+//	at91_disable_wdt();
 
 	/*
 	 * At this stage the main oscillator
 	 * is supposed to be enabled PCK = MCK = MOSC
 	 */
 
-	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
-	pmc_cfg_plla(PLLA_SETTINGS);
-
-	/* Initialize PLLA charge pump */
-	pmc_init_pll(AT91C_PMC_IPLLA_3);
-
-	/* Switch PCK/MCK on Main clock output */
-	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
-
-	/* Switch PCK/MCK on PLLA output */
-	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
+//	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
+//	pmc_cfg_plla(PLLA_SETTINGS);
+//
+//	/* Initialize PLLA charge pump */
+//	pmc_init_pll(AT91C_PMC_IPLLA_3);
+//
+//	/* Switch PCK/MCK on Main clock output */
+//	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
+//
+//	/* Switch PCK/MCK on PLLA output */
+//	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
 
 //#ifdef CONFIG_USER_HW_INIT
 //	/* Set GMAC & EMAC pins to output low */
 //	at91_special_pio_output_low();
 //#endif
 
+	/* initialize the dbgu */
+	initialize_dbgu();
+	
 	/* Init timer */
-	timer_init();
+//	timer_init();
 
 //#ifdef CONFIG_SCLK
 //	slowclk_enable_osc32();
 //#endif
-
-	/* initialize the dbgu */
-	initialize_dbgu();
 
 //#ifdef CONFIG_DDR2
 //	/* Initialize MPDDR Controller */
