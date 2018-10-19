@@ -58,7 +58,7 @@ static void at91_test_pin_init(void)
 		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
 	};
 	
-	/*  Configure the dbgu pins */
+	/*  Configure the test pins */
 	pmc_enable_periph_clock(AT91C_ID_PIOB);
 	pio_configure(test_pins);
 }
@@ -427,27 +427,27 @@ void at91_disable_smd_clock(void)
 void hw_init(void)
 {
 	
-	at91_test_pin_init();
-	
 	/* Disable watchdog */
-//	at91_disable_wdt();
+	at91_disable_wdt();
 
 	/*
 	 * At this stage the main oscillator
 	 * is supposed to be enabled PCK = MCK = MOSC
 	 */
+	
+	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
+	pmc_cfg_plla(PLLA_SETTINGS);
 
-//	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
-//	pmc_cfg_plla(PLLA_SETTINGS);
-//
-//	/* Initialize PLLA charge pump */
-//	pmc_init_pll(AT91C_PMC_IPLLA_3);
-//
-//	/* Switch PCK/MCK on Main clock output */
-//	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
-//
-//	/* Switch PCK/MCK on PLLA output */
-//	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
+	/* Initialize PLLA charge pump */
+	pmc_init_pll(AT91C_PMC_IPLLA_3);
+
+	/* Switch PCK/MCK on Main clock output */
+	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
+
+	/* Switch PCK/MCK on PLLA output */
+	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
+	
+	at91_test_pin_init();
 
 //#ifdef CONFIG_USER_HW_INIT
 //	/* Set GMAC & EMAC pins to output low */
