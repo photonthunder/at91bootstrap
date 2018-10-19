@@ -34,7 +34,7 @@
  * The main oscillator is enabled as soon as possible in the lowlevel_clock_init
  * and MCK is switched on the main oscillator.
  */
-#define BOARD_MAINOSC		24000000
+#define BOARD_MAINOSC		12000000
 
 #if defined(CONFIG_BUS_SPEED_133MHZ)
 

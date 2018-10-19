@@ -328,41 +328,69 @@ void at91_board_config_twi_bus(void)
 }
 #endif
 
-#if defined(CONFIG_DISABLE_ACT8865_I2C)
+#if defined(CONFIG_ACT8865_SET_VOLTAGE)
 int at91_board_act8865_set_reg_voltage(void)
 {
 	unsigned char reg, value;
 	int ret;
-
+	
 	/* Check ACT8865 I2C interface */
 	if (act8865_check_i2c_disabled())
-		return 0;
-
-	/* Enable REG2 output 1.25V */
-	reg = REG2_0;
-	value = ACT8865_1V25;
-	ret = act8865_set_reg_voltage(reg, value);
-	if (ret) {
-		dbg_info("ACT8865: Failed to make REG2 output 1250mV\n");
-		return -1;
-	}
-
-	dbg_info("ACT8865: The REG2 output 1250mV\n");
-
+	return 0;
+	
 	/* Enable REG5 output 3.3V */
 	reg = REG5_0;
 	value = ACT8865_3V3;
 	ret = act8865_set_reg_voltage(reg, value);
-	if (ret) {
-		dbg_info("ACT8865: Failed to make REG5 output 3300mV\n");
-		return -1;
-	}
-
-	dbg_info("ACT8865: The REG5 output 3300mV\n");
-
+	if (ret)
+	console_printf("ACT8865: Failed to make REG5 output 3300mV\n");
+	
+	/* Enable REG2 output 1.25V */
+	reg = REG2_0;
+	value = ACT8865_1V25;
+	ret = act8865_set_reg_voltage(reg, value);
+	if (ret)
+	console_printf("ACT8865: Failed to make REG2 output 1250mV\n");
+	
 	return 0;
 }
 #endif
+
+//#if defined(CONFIG_DISABLE_ACT8865_I2C)
+//int at91_board_act8865_set_reg_voltage(void)
+//{
+//	unsigned char reg, value;
+//	int ret;
+//
+//	/* Check ACT8865 I2C interface */
+//	if (act8865_check_i2c_disabled())
+//		return 0;
+//
+//	/* Enable REG2 output 1.25V */
+//	reg = REG2_0;
+//	value = ACT8865_1V25;
+//	ret = act8865_set_reg_voltage(reg, value);
+//	if (ret) {
+//		dbg_info("ACT8865: Failed to make REG2 output 1250mV\n");
+//		return -1;
+//	}
+//
+//	dbg_info("ACT8865: The REG2 output 1250mV\n");
+//
+//	/* Enable REG5 output 3.3V */
+//	reg = REG5_0;
+//	value = ACT8865_3V3;
+//	ret = act8865_set_reg_voltage(reg, value);
+//	if (ret) {
+//		dbg_info("ACT8865: Failed to make REG5 output 3300mV\n");
+//		return -1;
+//	}
+//
+//	dbg_info("ACT8865: The REG5 output 3300mV\n");
+//
+//	return 0;
+//}
+//#endif
 
 #if defined(CONFIG_PM)
 void at91_disable_smd_clock(void)
@@ -383,8 +411,9 @@ void at91_disable_smd_clock(void)
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
+	
 	/* Disable watchdog */
-	at91_disable_wdt();
+	//at91_disable_wdt(); TEST
 
 	/*
 	 * At this stage the main oscillator
@@ -403,32 +432,32 @@ void hw_init(void)
 	/* Switch PCK/MCK on PLLA output */
 	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
 
-#ifdef CONFIG_USER_HW_INIT
-	/* Set GMAC & EMAC pins to output low */
-	at91_special_pio_output_low();
-#endif
+//#ifdef CONFIG_USER_HW_INIT
+//	/* Set GMAC & EMAC pins to output low */
+//	at91_special_pio_output_low();
+//#endif
 
 	/* Init timer */
 	timer_init();
 
-#ifdef CONFIG_SCLK
-	slowclk_enable_osc32();
-#endif
+//#ifdef CONFIG_SCLK
+//	slowclk_enable_osc32();
+//#endif
 
 	/* initialize the dbgu */
 	initialize_dbgu();
 
-#ifdef CONFIG_DDR2
-	/* Initialize MPDDR Controller */
-	ddramc_init();
-#endif
-
-#ifdef CONFIG_PM_EXTERNAL_DEVICES
-#ifdef CONFIG_MACB
-	/* Make PHYs to power down mode */
-	phys_enter_power_down();
-#endif  /* #ifdef CONFIG_MACB */
-#endif	/* #ifdef CONFIG_PM_EXTERNAL_DEVICES */
+//#ifdef CONFIG_DDR2
+//	/* Initialize MPDDR Controller */
+//	ddramc_init();
+//#endif
+//
+//#ifdef CONFIG_PM_EXTERNAL_DEVICES
+//#ifdef CONFIG_MACB
+//	/* Make PHYs to power down mode */
+//	phys_enter_power_down();
+//#endif  /* #ifdef CONFIG_MACB */
+//#endif	/* #ifdef CONFIG_PM_EXTERNAL_DEVICES */
 }
 #endif /* #ifdef CONFIG_HW_INIT */
 
