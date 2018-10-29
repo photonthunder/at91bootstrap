@@ -344,7 +344,7 @@ static int clock_freq_in_range(unsigned long freq,
 		return 0;
 }
 
-static int pmc_configure_utmi_ref_clk(void)
+int pmc_configure_utmi_ref_clk(void)
 {
 	unsigned long main_clock;
 	unsigned int utmi_ref_clk_freq, tmp;
