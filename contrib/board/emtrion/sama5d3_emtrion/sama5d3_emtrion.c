@@ -430,6 +430,11 @@ void hw_init(void)
 	/* Disable watchdog */
 	at91_disable_wdt();
 
+	/* Set clock frequency */
+	pmc_uckr_clk(1);
+	
+	at91_test_pin_init();
+	
 	/*
 	 * At this stage the main oscillator
 	 * is supposed to be enabled PCK = MCK = MOSC
@@ -446,8 +451,6 @@ void hw_init(void)
 
 	/* Switch PCK/MCK on PLLA output */
 	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
-	
-	at91_test_pin_init();
 
 //#ifdef CONFIG_USER_HW_INIT
 //	/* Set GMAC & EMAC pins to output low */

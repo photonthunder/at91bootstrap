@@ -361,6 +361,7 @@ static int pmc_configure_utmi_ref_clk(void)
 		utmi_ref_clk_freq = 1;
 	} else if (clock_freq_in_range(main_clock, 24000000, delta)) {
 		utmi_ref_clk_freq = 2;
+		dbg_info("The MAINCK frequency: %d\n", main_clock);
 	/*
 	 * Not supported on SAMA5D2 but it's not an issue since MAINCK
 	 * maximum value is 24 MHz.
@@ -380,6 +381,7 @@ static int pmc_configure_utmi_ref_clk(void)
 	return 0;
 }
 #else
+#error "No Reference Clock Selected"
 static int pmc_configure_utmi_ref_clk(void)
 {
 	return 0;
