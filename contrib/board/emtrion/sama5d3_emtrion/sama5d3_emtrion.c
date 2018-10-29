@@ -426,12 +426,17 @@ void at91_disable_smd_clock(void)
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
+	unsigned int tmp;
 	
 	/* Disable watchdog */
 	at91_disable_wdt();
 
+	tmp = readl(SFR_UTMICKTRIM + AT91C_BASE_SFR);
+	tmp &= ~AT91C_UTMICKTRIM_FREQ;
+	tmp |= utmi_ref_clk_freq;
+	writel(tmp, SFR_UTMICKTRIM + AT91C_BASE_SFR);
 	/* Set clock frequency */
-	pmc_uckr_clk(1);
+	//pmc_uckr_clk(1);
 	
 	at91_test_pin_init();
 	

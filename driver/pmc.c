@@ -319,6 +319,7 @@ static unsigned long pmc_get_main_clock(void)
 #ifdef BOARD_MAINOSC
 	main_clock = BOARD_MAINOSC;
 #else
+#error "define MAINOSC!!!"
 	unsigned int tmp;
 
 	do {
