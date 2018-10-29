@@ -53,8 +53,8 @@ static void at91_test_pin_init(void)
 {
 	/* Configure test pins */
 	const struct pio_desc test_pins[] = {
-		{"TST1", AT91C_PIN_PB(14), 1, PIO_DEFAULT, PIO_OUTPUT},
-		{"TST2", AT91C_PIN_PB(15), 1, PIO_DEFAULT, PIO_OUTPUT},
+		{"TST1", AT91C_PIN_PB(14), 0, PIO_DEFAULT, PIO_OUTPUT},
+		{"TST2", AT91C_PIN_PB(15), 0, PIO_DEFAULT, PIO_OUTPUT},
 		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
 	};
 	
