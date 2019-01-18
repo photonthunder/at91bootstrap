@@ -65,4 +65,8 @@
 #include "sama5d3_linea.h"
 #endif
 
+#ifdef CONFIG_SAMA5D3_EMTRION
+#include "sama5d3_emtrion.h"
+#endif
+
 #endif
