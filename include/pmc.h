@@ -71,4 +71,5 @@ extern void pmc_pck_setup(unsigned int reg_offset, unsigned int reg_value);
 extern int pmc_check_mck_h32mxdiv(void);
 extern unsigned int at91_get_ahb_clock(void);
 
+
 #endif	/* #ifndef __PMC_H__ */

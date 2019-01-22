@@ -369,28 +369,106 @@ void at91_disable_smd_clock(void)
 }
 #endif
 
+void switch_to_crystal_osc(void)
+{
+    
+    tmp = read_pmc(PMC_MOR);
+    tmp &= (~AT91C_CKGR_MOSCXTST);
+    tmp &= (~AT91C_CKGR_KEY);
+    /* tmp |= AT91C_CKGR_MOSCXTEN; */
+    tmp |= AT91_CKGR_MOSCXTST_SET(8);
+    tmp |= AT91C_CKGR_PASSWD;
+    write_pmc(PMC_MOR, tmp);
+    
+    while (!(read_pmc(PMC_SR) & AT91C_PMC_MOSCXTS))
+        ;
+    
+    tmp = read_pmc(PMC_MOR);
+    tmp &= (~AT91C_CKGR_OSCBYPASS);
+    tmp &= (~AT91C_CKGR_KEY);
+    tmp |= AT91_CKGR_MOSCXTST_SET(8);
+    write_pmc(PMC_MOR, tmp);
+    
+    tmp = read_pmc(PMC_MOR);
+    tmp |= AT91C_CKGR_MOSCSEL;
+    tmp &= (~AT91C_CKGR_KEY);
+    tmp |= AT91_CKGR_MOSCXTST_SET(8);
+    write_pmc(PMC_MOR, tmp);
+    while (!(read_pmc(PMC_SR) & AT91C_CKGR_MOSCSEL))
+        ;
+    
+    while (!(read_pmc(PMC_MCFR) & AT91C_CKGR_MAINRDY))
+        ;
+    
+    tmp = read_pmc(PMC_MOR);
+    tmp &= (~AT91C_CKGR_MOSCRCEN);
+    tmp &= (~AT91C_CKGR_KEY);
+    tmp |= AT91_CKGR_MOSCXTST_SET(8);
+    write_pmc(PMC_MOR, tmp);
+}
+
+void at91_pmc_init(void)
+{
+    u32 tmp;
+    
+    tmp = AT91C_CKGR_SRCA |
+    AT91C_CKGR_PLLACOUNT |
+    ((AT91C_CKGR_ALT_MULA_MSK & 43) << AT91C_CKGR_ALT_MULA_OFFSET)
+    AT91C_CKGR_DIVA_BYPASS;
+    pmc_cfg_plla(tmp);
+    
+    pmc_init_pll(AT91C_PMC_IPLLA_3);
+    
+    /* prevents sytem halt after romboot */
+    udelay(10);
+    
+    tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_MAIN_CLK;
+    pmc_cfg_mck(tmp);
+    
+    tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_PLLA_CLK;
+    pmc_cfg_mck(tmp);
+    
+    udelay(1000);
+    
+}
+
+/*
+void at91_mck_init(u32 mckr)
+{
+    u32 tmp;
+    
+    tmp = read_pmc(PMC_MCKR)
+    tmp &= ~(AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
+    tmp |= mckr & (AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
+    write_pmc(PMC_MCKR, tmp);
+    while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
+        ;
+    
+    if ((read_pmc(PMC_MCKR) & AT91C_PMC_CSS) == AT91C_PMC_CSS_SLOW_CLK) {
+        tmp = read_pmc(PMC_MCKR);
+        tmp &= ~AT91C_PMC_CSS;
+        tmp |= AT91C_PMC_CSS_MAIN_CLK;
+        write_pmc(PMC_MCKR, tmp);
+        while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
+            ;
+        
+        tmp &= ~AT91C_PMC_ALT_PRES;
+        tmp |= AT91C_PMC_PRES_CLK;
+        write_pmc(PMC_MCKR, tmp);
+        while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
+            ;
+    }
+}
+ */
+
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
-	/* Disable watchdog */
+    switch_to_crystal_osc();
+    
 	at91_disable_wdt();
-
-	/*
-	 * At this stage the main oscillator
-	 * is supposed to be enabled PCK = MCK = MOSC
-	 */
-
-	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
-	pmc_cfg_plla(PLLA_SETTINGS);
-
-	/* Initialize PLLA charge pump */
-	pmc_init_pll(AT91C_PMC_IPLLA_3);
-
-	/* Switch PCK/MCK on Main clock output */
-	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
-
-	/* Switch PCK/MCK on PLLA output */
-	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
+    
+    at91_pmc_init();
 
 #ifdef CONFIG_USER_HW_INIT
 	/* Set GMAC & EMAC pins to output low */
