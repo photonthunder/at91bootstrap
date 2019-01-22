@@ -371,8 +371,7 @@ void at91_disable_smd_clock(void)
 
 void at91_pmc_init(void)
 {
-    u32 tmp;
-    
+    unsigned long tmp;
     tmp = AT91C_CKGR_SRCA |
     AT91C_CKGR_PLLACOUNT |
     ((AT91C_CKGR_ALT_MULA_MSK & 43) << AT91C_CKGR_ALT_MULA_OFFSET)
@@ -395,10 +394,9 @@ void at91_pmc_init(void)
 }
 
 /*
-void at91_mck_init(u32 mckr)
+void at91_mck_init(unsigned long mckr)
 {
-    u32 tmp;
-    
+    unsigned long tmp;
     tmp = read_pmc(PMC_MCKR)
     tmp &= ~(AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
     tmp |= mckr & (AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
