@@ -392,34 +392,6 @@ void at91_pmc_init(void)
     
 }
 
-/*
-void at91_mck_init(unsigned long mckr)
-{
-    unsigned long tmp;
-    tmp = read_pmc(PMC_MCKR)
-    tmp &= ~(AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
-    tmp |= mckr & (AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
-    write_pmc(PMC_MCKR, tmp);
-    while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
-        ;
-    
-    if ((read_pmc(PMC_MCKR) & AT91C_PMC_CSS) == AT91C_PMC_CSS_SLOW_CLK) {
-        tmp = read_pmc(PMC_MCKR);
-        tmp &= ~AT91C_PMC_CSS;
-        tmp |= AT91C_PMC_CSS_MAIN_CLK;
-        write_pmc(PMC_MCKR, tmp);
-        while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
-            ;
-        
-        tmp &= ~AT91C_PMC_ALT_PRES;
-        tmp |= AT91C_PMC_PRES_CLK;
-        write_pmc(PMC_MCKR, tmp);
-        while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
-            ;
-    }
-}
- */
-
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
