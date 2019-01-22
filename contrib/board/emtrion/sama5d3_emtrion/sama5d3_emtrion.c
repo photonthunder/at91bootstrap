@@ -372,10 +372,9 @@ void at91_disable_smd_clock(void)
 void at91_pmc_init(void)
 {
     unsigned long tmp;
-    tmp = AT91C_CKGR_SRCA |
-    AT91C_CKGR_PLLACOUNT |
-    ((AT91C_CKGR_ALT_MULA_MSK & 43) << AT91C_CKGR_ALT_MULA_OFFSET)
-    AT91C_CKGR_DIVA_BYPASS;
+    tmp = AT91C_CKGR_SRCA | AT91C_CKGR_PLLACOUNT |
+            ((AT91C_CKGR_ALT_MULA_MSK & 43) << AT91C_CKGR_ALT_MULA_OFFSET) |
+            AT91C_CKGR_DIVA_BYPASS;
     pmc_cfg_plla(tmp);
     
     pmc_init_pll(AT91C_PMC_IPLLA_3);
