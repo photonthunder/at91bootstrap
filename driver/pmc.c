@@ -181,6 +181,7 @@ int pmc_cfg_plla(unsigned int pmc_pllar)
 
 int pmc_cfg_mck(unsigned int pmc_mckr)
 {
+    /*
 #ifdef CONFIG_SAMA5D3_EMTRION
     unsigned int tmp;
     tmp = read_pmc(PMC_MCKR);
@@ -206,6 +207,7 @@ int pmc_cfg_mck(unsigned int pmc_mckr)
     }
     return 0;
 #else
+     */
 	unsigned int tmp;
 
 	/*
@@ -260,7 +262,6 @@ int pmc_cfg_mck(unsigned int pmc_mckr)
 		;
 
 	return 0;
-#endif
 }
 
 int pmc_cfg_pck(unsigned char x, unsigned int clk_sel, unsigned int prescaler)

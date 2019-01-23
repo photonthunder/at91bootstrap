@@ -425,7 +425,7 @@ void hw_init(void)
 {
     test_pin_init();
     pio_set_gpio_output(TEST_PIN1, 0);
-    switch_to_crystal_osc();
+    /* switch_to_crystal_osc(); */
     pio_set_gpio_output(TEST_PIN2, 0);
 	at91_disable_wdt();
     pio_set_gpio_output(TEST_PIN3, 0);
