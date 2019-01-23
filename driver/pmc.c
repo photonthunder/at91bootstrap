@@ -704,23 +704,17 @@ void pmc_smd_setup(unsigned int val)
 #ifdef CONFIG_SAMA5D3_EMTRION
 void switch_to_crystal_osc(void)
 {
+    
     unsigned long tmp;
     tmp = read_pmc(PMC_MOR);
     tmp &= (~AT91C_CKGR_MOSCXTST);
     tmp &= (~AT91C_CKGR_KEY);
-    /* tmp |= AT91C_CKGR_MOSCXTEN; */
     tmp |= AT91_CKGR_MOSCXTST_SET(8);
     tmp |= AT91C_CKGR_PASSWD;
     write_pmc(PMC_MOR, tmp);
     
     while (!(read_pmc(PMC_SR) & AT91C_PMC_MOSCXTS))
         ;
-    
-    tmp = read_pmc(PMC_MOR);
-    tmp &= (~AT91C_CKGR_OSCBYPASS);
-    tmp &= (~AT91C_CKGR_KEY);
-    tmp |= AT91_CKGR_MOSCXTST_SET(8);
-    write_pmc(PMC_MOR, tmp);
     
     tmp = read_pmc(PMC_MOR);
     tmp |= AT91C_CKGR_MOSCSEL;
