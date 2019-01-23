@@ -399,20 +399,18 @@ void at91_disable_smd_clock(void)
 
 void at91_pmc_init(void)
 {
-    pio_set_gpio_output(TEST_PIN2, 0);
     unsigned long tmp;
     tmp = AT91C_CKGR_PLLACOUNT |
             ((AT91C_CKGR_ALT_MULA_MSK & 43) << AT91C_CKGR_ALT_MULA_OFFSET) |
             AT91C_CKGR_DIVA_BYPASS;
     pmc_cfg_plla(tmp);
-    pio_set_gpio_output(TEST_PIN3, 0);
+    pio_set_gpio_output(TEST_PIN2, 0);
     
     pmc_init_pll(AT91C_PMC_IPLLA_3);
-    pio_set_gpio_output(TEST_PIN4, 0);
-    
+    pio_set_gpio_output(TEST_PIN3, 0);
     /* prevents sytem halt after romboot */
     udelay(10);
-    
+    pio_set_gpio_output(TEST_PIN4, 0);
     tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_MAIN_CLK;
     pmc_cfg_mck(tmp);
     pio_set_gpio_output(TEST_PIN5, 0);
