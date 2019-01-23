@@ -46,17 +46,31 @@
 #include "act8865.h"
 #include "twi.h"
 
-static void test_pin_init(void)
+#define TEST_PIN1    AT91C_PIN_PB(14)
+#define TEST_PIN2    AT91C_PIN_PB(15)
+#define TEST_PIN3    AT91C_PIN_PD(14)
+#define TEST_PIN4    AT91C_PIN_PD(15)
+#define TEST_PIN5    AT91C_PIN_PD(16)
+#define TEST_PIN6    AT91C_PIN_PD(17)
+#define TEST_PIN7    AT91C_PIN_PD(18)
+
+static void test_pin_init(int testPin)
 {
     /* Configure test pins */
     const struct pio_desc test_pins[] = {
-        {"TST1", AT91C_PIN_PB(14), 0, PIO_DEFAULT, PIO_OUTPUT},
-        {"TST2", AT91C_PIN_PB(15), 0, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST1", TEST_PIN1, 1, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST2", TEST_PIN2, 1, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST3", TEST_PIN3, 1, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST4", TEST_PIN4, 1, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST3", TEST_PIN5, 1, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST4", TEST_PIN6, 1, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST3", TEST_PIN7, 1, PIO_DEFAULT, PIO_OUTPUT},
         {(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
     };
     
     /*  Configure the test pins */
     pmc_enable_periph_clock(AT91C_ID_PIOB);
+    pmc_enable_periph_clock(AT91C_ID_PIOD);
     pio_configure(test_pins);
 }
 
@@ -409,23 +423,24 @@ void at91_pmc_init(void)
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
-    test_pin_init();
+    pio_set_gpio_output(TEST_PIN1, 0);
     switch_to_crystal_osc();
-    
+    pio_set_gpio_output(TEST_PIN2, 0);
 	at91_disable_wdt();
-    
+    pio_set_gpio_output(TEST_PIN3, 0);
     at91_pmc_init();
-
+    pio_set_gpio_output(TEST_PIN4, 0);
 #ifdef CONFIG_USER_HW_INIT
 	/* Set GMAC & EMAC pins to output low */
 	at91_special_pio_output_low();
 #endif
-
+    pio_set_gpio_output(TEST_PIN5, 0);
 	/* Init timer */
 	timer_init();
-
+    pio_set_gpio_output(TEST_PIN6, 0);
 	/* initialize the dbgu */
 	initialize_dbgu();
+    pio_set_gpio_output(TEST_PIN7, 0);
 
 #ifdef CONFIG_DDR2
 	/* Initialize MPDDR Controller */
