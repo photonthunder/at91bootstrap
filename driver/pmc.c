@@ -204,6 +204,7 @@ int pmc_cfg_mck(unsigned int pmc_mckr)
         while (!(read_pmc(PMC_SR) & AT91C_PMC_MCKRDY))
             ;
     }
+    return 0;
 #else
 	unsigned int tmp;
 
