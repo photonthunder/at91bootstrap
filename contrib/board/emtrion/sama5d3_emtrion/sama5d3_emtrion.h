@@ -35,8 +35,23 @@
  * and MCK is switched on the main oscillator.
  */
 #define BOARD_MAINOSC		24000000UL
-/* #define MASTER_CLOCK		264000000UL */
 #define MASTER_CLOCK        132000000UL
+
+/* PCK = 528MHz, MCK = 132MHz */
+#define PLLA_MULA        43
+#define BOARD_PCK        ((unsigned long)(BOARD_MAINOSC * (PLLA_MULA + 1)) / 2)
+#define BOARD_MCK        ((unsigned long)((BOARD_MAINOSC * (PLLA_MULA + 1)) / 4))
+
+#define BOARD_CKGR_PLLA        (AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
+#define BOARD_PLLACOUNT        (AT91C_PMC_IPLLA_3)
+#define BOARD_MULA        ((AT91C_CKGR_ALT_MULA) & (PLLA_MULA << 18))
+#define BOARD_DIVA        (AT91C_CKGR_DIVA & 1)
+
+#define BOARD_PRESCALER_MAIN_CLOCK    (AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_MAIN_CLK)
+
+#define BOARD_PRESCALER_PLLA        (AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_PLLA_CLK)
+
+#define PLLA_SETTINGS        (BOARD_CKGR_PLLA | BOARD_PLLACOUNT | BOARD_MULA | BOARD_DIVA)
 
 /*
 * DataFlash Settings

@@ -44,10 +44,8 @@
 
 /* PCK = 528MHz, MCK = 132MHz */
 #define PLLA_MULA		43
-#define BOARD_PCK		((unsigned long)(BOARD_MAINOSC * \
-							(PLLA_MULA + 1)))
-#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * \
-							(PLLA_MULA + 1)) / 4))
+#define BOARD_PCK		((unsigned long)(BOARD_MAINOSC * (PLLA_MULA + 1)) / 2)
+#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (PLLA_MULA + 1)) / 4))
 
 #define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
 #define BOARD_PLLACOUNT		(0x3F << 8)
