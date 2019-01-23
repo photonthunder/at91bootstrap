@@ -80,7 +80,11 @@ void lowlevel_clock_init()
 	tmp = read_pmc(PMC_MOR);
 	tmp &= (~AT91C_CKGR_MOSCXTST);
 	tmp &= (~AT91C_CKGR_KEY);
+#ifdef CONFIG_SAMA5D3_EMTRION
+    tmp |= AT91C_CKGR_MOSCXTBY;
+#else
 	tmp |= AT91C_CKGR_MOSCXTEN;
+#endif
 	tmp |= AT91_CKGR_MOSCXTST_SET(8);
 	tmp |= AT91C_CKGR_PASSWD;
 	write_pmc(PMC_MOR, tmp);
@@ -99,12 +103,14 @@ void lowlevel_clock_init()
 		;
 #endif
 
+#ifndef CONFIG_SAMA5D3_EMTRION
 	/* Switch from internal 12MHz RC to the Main Cristal Oscillator */
 	tmp = read_pmc(PMC_MOR);
 	tmp &= (~AT91C_CKGR_MOSCXTBY);
 	tmp &= (~AT91C_CKGR_KEY);
 	tmp |= AT91C_CKGR_PASSWD;
 	write_pmc(PMC_MOR, tmp);
+#endif
 
 	tmp = read_pmc(PMC_MOR);
 	tmp |= AT91C_CKGR_MOSCSEL;
