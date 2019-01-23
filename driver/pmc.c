@@ -183,7 +183,7 @@ int pmc_cfg_mck(unsigned int pmc_mckr)
 {
 #ifdef CONFIG_SAMA5D3_EMTRION
     unsigned int tmp;
-    tmp = read_pmc(PMC_MCKR)
+    tmp = read_pmc(PMC_MCKR);
     tmp &= ~(AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
     tmp |= mckr & (AT91C_PMC_ALT_PRES | AT91C_PMC_MDIV | AT91C_PMC_PLLADIV2 | AT91C_PMC_H32MXDIV);
     write_pmc(PMC_MCKR, tmp);
