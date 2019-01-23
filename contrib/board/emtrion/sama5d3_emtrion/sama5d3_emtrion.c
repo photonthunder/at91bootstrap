@@ -46,6 +46,20 @@
 #include "act8865.h"
 #include "twi.h"
 
+static void test_pin_init(void)
+{
+    /* Configure test pins */
+    const struct pio_desc test_pins[] = {
+        {"TST1", AT91C_PIN_PB(14), 0, PIO_DEFAULT, PIO_OUTPUT},
+        {"TST2", AT91C_PIN_PB(15), 0, PIO_DEFAULT, PIO_OUTPUT},
+        {(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
+    };
+    
+    /*  Configure the test pins */
+    pmc_enable_periph_clock(AT91C_ID_PIOB);
+    pio_configure(test_pins);
+}
+
 static void at91_dbgu_hw_init(void)
 {
 	/* Configure DBGU pin */
@@ -395,6 +409,7 @@ void at91_pmc_init(void)
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
+    test_pin_init();
     switch_to_crystal_osc();
     
 	at91_disable_wdt();
