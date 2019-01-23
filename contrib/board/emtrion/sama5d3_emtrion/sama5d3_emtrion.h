@@ -34,12 +34,13 @@
  * The main oscillator is enabled as soon as possible in the lowlevel_clock_init
  * and MCK is switched on the main oscillator.
  */
-#define BOARD_MAINOSC		12000000
+#define BOARD_MAINOSC		24000000
 
 #if defined(CONFIG_BUS_SPEED_133MHZ)
 
-#define MASTER_CLOCK		132000000
+#define MASTER_CLOCK		264000000
 
+#if 0
 #if defined(CONFIG_CPU_CLK_528MHZ)
 
 /* PCK = 528MHz, MCK = 132MHz */
@@ -171,6 +172,7 @@
 				| BOARD_PLLACOUNT \
 				| BOARD_MULA \
 				| BOARD_DIVA)
+#endif
 
 /*
 * DataFlash Settings
