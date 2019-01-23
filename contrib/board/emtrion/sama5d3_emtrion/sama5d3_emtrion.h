@@ -34,8 +34,8 @@
  * The main oscillator is enabled as soon as possible in the lowlevel_clock_init
  * and MCK is switched on the main oscillator.
  */
-#define BOARD_MAINOSC		24000000
-#define MASTER_CLOCK		264000000
+#define BOARD_MAINOSC		24000000UL
+#define MASTER_CLOCK		264000000UL
 
 /*
 * DataFlash Settings

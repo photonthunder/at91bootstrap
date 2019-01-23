@@ -94,7 +94,7 @@ static void at91_dbgu_hw_init(void)
 static void initialize_dbgu(void)
 {
 	at91_dbgu_hw_init();
-	usart_init(BAUDRATE(MASTER_CLOCK, 115200));
+	usart_init(BAUDRATE(MASTER_CLOCK, 115200UL));
 }
 
 #ifdef CONFIG_DDR2
