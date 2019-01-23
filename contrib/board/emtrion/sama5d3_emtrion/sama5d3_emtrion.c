@@ -411,11 +411,11 @@ void at91_pmc_init(void)
     /* prevents sytem halt after romboot */
     /* udelay(10); */
     pio_set_gpio_output(TEST_PIN4, 0);
-    tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_MAIN_CLK;
+    tmp = AT91C_PMC_MDIV_8 | AT91C_PMC_CSS_MAIN_CLK;
     pmc_cfg_mck(tmp);
     pio_set_gpio_output(TEST_PIN5, 0);
     
-    tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_PLLA_CLK;
+    tmp = AT91C_PMC_MDIV_8 | AT91C_PMC_CSS_PLLA_CLK;
     pmc_cfg_mck(tmp);
     pio_set_gpio_output(TEST_PIN6, 0);
     

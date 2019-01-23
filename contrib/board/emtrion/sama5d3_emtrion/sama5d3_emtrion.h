@@ -35,7 +35,8 @@
  * and MCK is switched on the main oscillator.
  */
 #define BOARD_MAINOSC		24000000UL
-#define MASTER_CLOCK		264000000UL
+/* #define MASTER_CLOCK		264000000UL */
+#define MASTER_CLOCK        132000000UL
 
 /*
 * DataFlash Settings
