@@ -423,6 +423,7 @@ void at91_pmc_init(void)
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
+    test_pin_init();
     pio_set_gpio_output(TEST_PIN1, 0);
     switch_to_crystal_osc();
     pio_set_gpio_output(TEST_PIN2, 0);
