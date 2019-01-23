@@ -54,7 +54,7 @@
 #define TEST_PIN6    AT91C_PIN_PD(17)
 #define TEST_PIN7    AT91C_PIN_PD(18)
 
-static void test_pin_init(int testPin)
+static void test_pin_init(void)
 {
     /* Configure test pins */
     const struct pio_desc test_pins[] = {
