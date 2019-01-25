@@ -62,7 +62,7 @@ ALLOW_SDCARD=y
 
 #
 # RAM Configuration
-CONFIG_RAM_512MB=y
+CONFIG_RAM_256MB=y
 CONFIG_DDR2=y
 # CONFIG_DDR3 is not set
 # CONFIG_SAMA5D2_LPDDR2 is not set
