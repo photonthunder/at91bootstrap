@@ -46,6 +46,7 @@
 #include "act8865.h"
 #include "twi.h"
 
+/*
 #define TEST_PIN1    AT91C_PIN_PB(14)
 #define TEST_PIN2    AT91C_PIN_PB(15)
 #define TEST_PIN3    AT91C_PIN_PD(14)
@@ -56,7 +57,6 @@
 
 static void test_pin_init(void)
 {
-    /* Configure test pins */
     const struct pio_desc test_pins[] = {
         {"TST1", TEST_PIN1, 1, PIO_DEFAULT, PIO_OUTPUT},
         {"TST2", TEST_PIN2, 1, PIO_DEFAULT, PIO_OUTPUT},
@@ -68,11 +68,11 @@ static void test_pin_init(void)
         {(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
     };
     
-    /*  Configure the test pins */
     pmc_enable_periph_clock(AT91C_ID_PIOB);
     pmc_enable_periph_clock(AT91C_ID_PIOD);
     pio_configure(test_pins);
 }
+ */
 
 static void at91_dbgu_hw_init(void)
 {
@@ -396,40 +396,13 @@ void at91_disable_smd_clock(void)
 	pmc_disable_system_clock(AT91C_PMC_SMDCK);
 }
 #endif
-#if 0
-void at91_pmc_init(void)
-{
-    unsigned long tmp;
-    tmp = AT91C_CKGR_PLLACOUNT |
-            ((AT91C_CKGR_ALT_MULA_MSK & 43) << AT91C_CKGR_ALT_MULA_OFFSET) |
-            AT91C_CKGR_DIVA_BYPASS;
-    pmc_cfg_plla(tmp);
-    pio_set_gpio_output(TEST_PIN2, 0);
-    
-    pmc_init_pll(AT91C_PMC_IPLLA_3);
-    
-    /* prevents sytem halt after romboot */
-    /* udelay(10); */
-    pio_set_gpio_output(TEST_PIN4, 0);
-    tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_MAIN_CLK;
-    pmc_cfg_mck(tmp);
-    pio_set_gpio_output(TEST_PIN5, 0);
-    
-    tmp = AT91C_PMC_MDIV_4 | AT91C_PMC_CSS_PLLA_CLK;
-    pmc_cfg_mck(tmp);
-    pio_set_gpio_output(TEST_PIN6, 0);
-    
-    /* udelay(1000); */
-    
-}
-#endif
 
 #ifdef CONFIG_HW_INIT
 void hw_init(void)
 {
-    test_pin_init();
+    /* test_pin_init(); */
     /* Disable watchdog */
-    pio_set_gpio_output(TEST_PIN1, 0);
+    /* pio_set_gpio_output(TEST_PIN1, 0); */
     at91_disable_wdt();
     /* at91_pmc_init(); */
     
@@ -437,21 +410,16 @@ void hw_init(void)
      * At this stage the main oscillator
      * is supposed to be enabled PCK = MCK = MOSC
      */
-    pio_set_gpio_output(TEST_PIN2, 0);
     /* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
     pmc_cfg_plla(PLLA_SETTINGS);
-    pio_set_gpio_output(TEST_PIN3, 0);
     /* Initialize PLLA charge pump */
     pmc_init_pll(AT91C_PMC_IPLLA_3);
     
-    pio_set_gpio_output(TEST_PIN4, 0);
     /* Switch PCK/MCK on Main clock output */
     pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
     
-    pio_set_gpio_output(TEST_PIN5, 0);
     /* Switch PCK/MCK on PLLA output */
     pmc_cfg_mck(BOARD_PRESCALER_PLLA);
-    pio_set_gpio_output(TEST_PIN6, 0);
     
 #ifdef CONFIG_USER_HW_INIT
 	/* Set GMAC & EMAC pins to output low */
@@ -459,7 +427,6 @@ void hw_init(void)
 #endif
 	/* Init timer */
 	timer_init();
-    pio_set_gpio_output(TEST_PIN7, 0);
 	/* initialize the dbgu */
 	initialize_dbgu();
     
