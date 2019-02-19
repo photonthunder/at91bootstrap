@@ -135,13 +135,13 @@ static void ddramc_reg_config(struct ddramc_register *ddramc_config)
 
 	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)	/* 2 clock cycles */
 			| AT91C_DDRC2_TXSRD_(200)	/* 200 clock cycles */
-			| AT91C_DDRC2_TXSNR_(28)	/* 19 * 7.5 = 142.5 ns */
-			| AT91C_DDRC2_TRFC_(26));	/* 17 * 7.5 = 127.5 ns */
+			| AT91C_DDRC2_TXSNR_(19)	/* 19 * 7.5 = 142.5 ns */
+			| AT91C_DDRC2_TRFC_(17));	/* 17 * 7.5 = 127.5 ns */
 
-	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(7)	/* 6 * 7.5 = 45 ns */
+	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(6)	/* 6 * 7.5 = 45 ns */
 			| AT91C_DDRC2_TRTP_(2)		/* 2 clock cycles min */
 			| AT91C_DDRC2_TRPA_(2)		/* 2 * 7.5 = 15 ns */
-			| AT91C_DDRC2_TXARDS_(7)	/* = TXARD */
+			| AT91C_DDRC2_TXARDS_(8)	/* = TXARD */
 			| AT91C_DDRC2_TXARD_(8));	/* MR12 = 1 */
 
 #elif defined(CONFIG_BUS_SPEED_166MHZ)
