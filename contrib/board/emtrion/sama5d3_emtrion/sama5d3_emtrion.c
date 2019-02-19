@@ -121,7 +121,7 @@ static void ddramc_reg_config(struct ddramc_register *ddramc_config)
 	 * set with (15.625 x 133 MHz) ~ 2084 i.e. 0x824
 	 * or (7.81 x 133 MHz) ~ 1039 i.e. 0x40F.
 	 */
-	ddramc_config->rtr = 0x40F;     /* Refresh timer: 7.812us */
+	ddramc_config->rtr = 0x411;     /* Refresh timer: 7.812us */
 
 	/* One clock cycle @ 133 MHz = 7.5 ns */
 	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(6)	/* 6 * 7.5 = 45 ns */
@@ -130,48 +130,22 @@ static void ddramc_reg_config(struct ddramc_register *ddramc_config)
 			| AT91C_DDRC2_TRC_(8)		/* 8 * 7.5 = 75   ns */
 			| AT91C_DDRC2_TRP_(2)		/* 2 * 7.5 = 15   ns */
 			| AT91C_DDRC2_TRRD_(2)		/* 2 * 7.5 = 15   ns */
-			| AT91C_DDRC2_TWTR_(2)		/* 2 clock cycles min */
+			| AT91C_DDRC2_TWTR_(1)		/* 2 clock cycles min */
 			| AT91C_DDRC2_TMRD_(2));	/* 2 clock cycles */
 
 	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)	/* 2 clock cycles */
 			| AT91C_DDRC2_TXSRD_(200)	/* 200 clock cycles */
-			| AT91C_DDRC2_TXSNR_(19)	/* 19 * 7.5 = 142.5 ns */
+			| AT91C_DDRC2_TXSNR_(18)	/* 19 * 7.5 = 142.5 ns */
 			| AT91C_DDRC2_TRFC_(17));	/* 17 * 7.5 = 127.5 ns */
 
 	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(6)	/* 6 * 7.5 = 45 ns */
 			| AT91C_DDRC2_TRTP_(2)		/* 2 clock cycles min */
-			| AT91C_DDRC2_TRPA_(2)		/* 2 * 7.5 = 15 ns */
+			| AT91C_DDRC2_TRPA_(3)		/* 2 * 7.5 = 15 ns */
 			| AT91C_DDRC2_TXARDS_(8)	/* = TXARD */
-			| AT91C_DDRC2_TXARD_(8));	/* MR12 = 1 */
+			| AT91C_DDRC2_TXARD_(2));	/* MR12 = 1 */
 
 #elif defined(CONFIG_BUS_SPEED_166MHZ)
-	/*
-	 * The DDR2-SDRAM device requires a refresh of all rows every 64ms.
-	 * ((64ms) / 8192) * 166MHz = 1296 i.e. 0x510
-	 */
-	ddramc_config->rtr = 0x510;
-
-	/* One clock cycle @ 166 MHz = 6.0 ns */
-	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(8)	/* 8 * 6 = 48 ns */
-			| AT91C_DDRC2_TRCD_(3)		/* 3 * 6 = 18 ns */
-			| AT91C_DDRC2_TWR_(3)		/* 3 * 6 = 18 ns */
-			| AT91C_DDRC2_TRC_(10)		/* 10 * 6 = 60 ns */
-			| AT91C_DDRC2_TRP_(3)		/* 3 * 6 = 18 ns */
-			| AT91C_DDRC2_TRRD_(2)		/* 2 * 6 = 12 ns */
-			| AT91C_DDRC2_TWTR_(2)		/* 2 clock cycles */
-			| AT91C_DDRC2_TMRD_(2));	/* 2 clock cycles */
-
-	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)	/* 2 * 6 = 12ns */
-			| AT91C_DDRC2_TXSRD_(200)	/* 200 clock cycles */
-			| AT91C_DDRC2_TXSNR_(23)	/* 23 * 6 = 138 ns */
-			| AT91C_DDRC2_TRFC_(22));	/* 22 * 6 = 132 ns */
-
-	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(8)	/* 45 ns */
-			| AT91C_DDRC2_TRTP_(2)		/* 2 * 6 = 15ns */
-			| AT91C_DDRC2_TRPA_(3)		/* 15 ns */
-			| AT91C_DDRC2_TXARDS_(8)	/* = TXARD */
-			| AT91C_DDRC2_TXARD_(8));	/* 8 clock cycles */
-
+#error "not setup for Bus speed of 166 MHz"
 #else
 #error "No bus clock provided!"
 #endif
