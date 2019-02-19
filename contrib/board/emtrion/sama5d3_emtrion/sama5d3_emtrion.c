@@ -142,7 +142,7 @@ static void ddramc_reg_config(struct ddramc_register *ddramc_config)
 			| AT91C_DDRC2_TRTP_(2)		/* 2 clock cycles min */
 			| AT91C_DDRC2_TRPA_(2)		/* 2 * 7.5 = 15 ns */
 			| AT91C_DDRC2_TXARDS_(8)	/* = TXARD */
-			| AT91C_DDRC2_TXARD_(8));	/* MR12 = 1 */
+			| AT91C_DDRC2_TXARD_(2));	/* MR12 = 1 */
 
 #elif defined(CONFIG_BUS_SPEED_166MHZ)
 #error "not setup for Bus speed of 166 MHz"
